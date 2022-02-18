@@ -1,0 +1,17 @@
+[package]
+name = "genetic-algorithm-fn"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tim Toebrock"]
+license = "MIT"
+description = """
+Using genetic algorithms to maximize functions.
+"""
+
+[dependencies]
+crossbeam-utils = "0.8.6"
+genetic-algorithm-traits = "0.1.0"
+rand = "0.8.4"
+
+[profile.dev]
+opt-level = 3
