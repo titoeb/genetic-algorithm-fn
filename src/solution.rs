@@ -142,7 +142,7 @@ impl Solution {
             Some(value) => value,
             None => panic!("Your range is empty!"),
         };
-        let z = match get_random_elem_from_range(range.clone()) {
+        let z = match get_random_elem_from_range(range) {
             Some(value) => value,
             None => panic!("Your range is empty!"),
         };
