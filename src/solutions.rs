@@ -51,7 +51,7 @@ impl fmt::Display for Solutions {
             "Solutions([\n\t{}\n])",
             self.solutions
                 .iter()
-                .map(|solution| format!("{}", solution.to_string()))
+                .map(|solution| solution.to_string())
                 .collect::<Vec<String>>()
                 .join(",\n\t")
         )
