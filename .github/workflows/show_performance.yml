@@ -5,7 +5,7 @@ permissions:
   checks: write
   contents: read
 jobs:
-  run-tests:
+  show-performance:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository.
