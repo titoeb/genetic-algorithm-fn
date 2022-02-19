@@ -256,14 +256,4 @@ mod tests {
             "Solutions([\n\tSolution(1.1, 2.2, 3.3)\n])"
         )
     }
-
-    mod test_get_n_fittest {
-        use super::*;
-    }
-    mod test_fittest_routes {
-        use super::*;
-    }
-    mod test_evolve {
-        use super::*;
-    }
 }
