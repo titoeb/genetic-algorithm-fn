@@ -142,11 +142,11 @@ impl Solution {
             Some(value) => value,
             None => panic!("Your range is empty!"),
         };
-        let z = match get_random_elem_from_range(range.clone()) {
+        let z = match get_random_elem_from_range(range) {
             Some(value) => value,
             None => panic!("Your range is empty!"),
         };
-        Solution { x: x, y: y, z: z }
+        Solution { x, y, z }
     }
     /// Return the function arguments stored in a solution.
     ///
@@ -184,7 +184,7 @@ impl<'a> Individual<'a> for Solution {
     fn mutate(self, prob: f32) -> Self {
         if get_random_elem_from_range(0.0..1.0).unwrap() > prob {
             // With probabilty (1-prop) don't do any mutation.
-            return self;
+            self
         } else {
             // Sample a random factor to mutate the solutions with that is not 1.0
             // so that a value is mutated.
@@ -226,11 +226,11 @@ impl<'a> Individual<'a> for Solution {
     /// println!("{}", solution_to_crossover.crossover(&solution_to_crossover_with));
     /// ```
     fn crossover(&self, other: &Solution) -> Self {
-        return Solution {
+        Solution {
             x: average(self.x, other.x),
             y: average(self.y, other.y),
             z: average(self.z, other.z),
-        };
+        }
     }
     /// Compute the fitness of a Solution, that is the specific function value of the `Function`
     /// for the function arguments stored in `Solution`.
