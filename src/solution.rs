@@ -146,7 +146,7 @@ impl Solution {
             Some(value) => value,
             None => panic!("Your range is empty!"),
         };
-        Solution { x: x, y: y, z: z }
+        Solution { x, y, z }
     }
     /// Return the function arguments stored in a solution.
     ///
