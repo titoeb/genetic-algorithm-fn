@@ -226,11 +226,11 @@ impl<'a> Individual<'a> for Solution {
     /// println!("{}", solution_to_crossover.crossover(&solution_to_crossover_with));
     /// ```
     fn crossover(&self, other: &Solution) -> Self {
-        return Solution {
+        Solution {
             x: average(self.x, other.x),
             y: average(self.y, other.y),
             z: average(self.z, other.z),
-        };
+        }
     }
     /// Compute the fitness of a Solution, that is the specific function value of the `Function`
     /// for the function arguments stored in `Solution`.
