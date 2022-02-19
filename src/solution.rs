@@ -184,7 +184,7 @@ impl<'a> Individual<'a> for Solution {
     fn mutate(self, prob: f32) -> Self {
         if get_random_elem_from_range(0.0..1.0).unwrap() > prob {
             // With probabilty (1-prop) don't do any mutation.
-            return self;
+            self
         } else {
             // Sample a random factor to mutate the solutions with that is not 1.0
             // so that a value is mutated.
