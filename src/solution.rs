@@ -247,13 +247,27 @@ impl<'a> Individual<'a> for Solution {
     /// use genetic_algorithm_fn::function;
     /// use genetic_algorithm_traits::Individual;
     ///
-    /// let my_function = function::Function::new(|(x, y, z)| { x * y * z });
+    /// let function_to_optimize = function::Function::new(
+    ///     |x| match x.len() {
+    ///         3 => Ok(x[0] * x[1] * x[2]),
+    ///         _ => Err(function::FunctionError::WrongNumberOfEntries {
+    ///             actual_number_of_entries: x.len(),
+    ///             expected_number_of_entries: 3,
+    ///         }),
+    ///     }
+    /// );
     /// let this_solution = solution::Solution::new(2.0, 3.0, 5.0);
-    /// println!("{}", this_solution.fitness(&my_function));
+    /// println!("{}", this_solution.fitness(&function_to_optimize));
     /// ```
     ///
     fn fitness(&self, function: &function::Function) -> f64 {
-        function.get_function_value(self.get_arguments())
+        function
+            .get_function_value(vec![
+                self.get_arguments().0,
+                self.get_arguments().1,
+                self.get_arguments().2,
+            ])
+            .unwrap()
     }
 }
 
@@ -287,7 +301,7 @@ mod tests {
 
     mod test_solution {
         use super::*;
-
+        use crate::test_objects;
         #[test]
         fn test_constructor() {
             // Ensure the constructor is working.
@@ -303,8 +317,9 @@ mod tests {
         #[test]
         fn fitness() {
             assert_eq!(
-                Solution::new(2.0, 3.0, 5.0)
-                    .fitness(&function::Function::new(|(x, y, z)| { x * y * z })),
+                Solution::new(2.0, 3.0, 5.0).fitness(&function::Function::new(
+                    test_objects::triple_multiplication()
+                )),
                 30.0
             )
         }
@@ -444,7 +459,8 @@ mod tests {
             use super::*;
             #[test]
             fn simple_test() {
-                let function_to_maximize = function::Function::new(|(x, y, z)| x * y * z);
+                let function_to_maximize =
+                    function::Function::new(test_objects::triple_multiplication());
                 let solution = Solution::new(1.0, 4.0, 7.0);
                 assert_eq!(solution.fitness(&function_to_maximize), 28.0);
             }
