@@ -31,8 +31,8 @@ impl From<Vec<Solution>> for Solutions {
     /// use genetic_algorithm_fn::solution;
     ///
     /// let my_solutions = solutions::Solutions::from(vec![
-    ///     solution::Solution::new(1.0, 2.0, 3.0),
-    ///     solution::Solution::new(1.0, 2.0, 4.0)
+    ///     solution::Solution::new(vec![1.0, 2.0, 3.0]),
+    ///     solution::Solution::new(vec![1.0, 2.0, 4.0])
     /// ]);
     /// println!("Current solutions: {}", my_solutions);
     /// ```
@@ -69,16 +69,16 @@ impl Solutions {
     ///
     /// ```
     /// use genetic_algorithm_fn::solutions;
-    /// println!("{}", solutions::Solutions::random(5, 1.0..10.0));
+    /// println!("{}", solutions::Solutions::random(5, 1.0..10.0, 3));
     /// ```
-    pub fn random<R>(n_solutions: usize, range: R) -> Self
+    pub fn random<R>(n_solutions: usize, range: R, length: usize) -> Self
     where
         R: SampleRange<f64> + Clone,
     {
         let mut routes = HashSet::new();
 
         while routes.len() < n_solutions {
-            routes.insert(Solution::random(range.clone()));
+            routes.insert(Solution::random(range.clone(), length));
         }
 
         Solutions { solutions: routes }
@@ -114,7 +114,7 @@ impl<'a> Population<'a> for Solutions {
     ///         }),
     ///     }
     /// );
-    /// let all_solutions = solutions::Solutions::random(30, 1.0..10.0);
+    /// let all_solutions = solutions::Solutions::random(30, 1.0..10.0, 3);
     /// println!("Best 5 solutions: {}", all_solutions.get_fittest_population(5, &function_to_optimize));
     /// ```
     fn get_fittest_population(&self, n: usize, function: &Function) -> Solutions {
@@ -136,7 +136,7 @@ impl<'a> Population<'a> for Solutions {
     /// use genetic_algorithm_fn::solutions;
     /// use genetic_algorithm_traits::Population;
     ///
-    /// let all_solutions = solutions::Solutions::random(2, 1.0..10.0);
+    /// let all_solutions = solutions::Solutions::random(2, 1.0..10.0, 3);
     /// println!("The evolved invdividuals are {}", all_solutions.evolve(0.5));
     ///
     /// ```
@@ -153,7 +153,7 @@ impl<'a> Population<'a> for Solutions {
     /// use genetic_algorithm_fn::solutions;
     /// use genetic_algorithm_traits::Population;
     ///
-    /// let all_solutions = solutions::Solutions::random(5, 1.0..10.0);
+    /// let all_solutions = solutions::Solutions::random(5, 1.0..10.0, 3);
     /// all_solutions.iter().map(|solution| println!("{}", solution));
     /// ```
     fn iter(&'a self) -> std::collections::hash_set::Iter<Solution> {
@@ -235,7 +235,7 @@ where
     // End-to-end test: does the error of the route get down?
     let before = Instant::now();
     let final_population = evolve_population(
-        Solutions::random(size_generation, sample_range),
+        Solutions::random(size_generation, sample_range, 3),
         n_generations,
         size_generation,
         function,
@@ -259,9 +259,9 @@ mod tests {
         assert_eq!(
             format!(
                 "{}",
-                Solutions::from(vec![solution::Solution::new(1.1, 2.2, 3.3),])
+                Solutions::from(vec![solution::Solution::new(vec![1.1, 2.2, 3.3]),])
             ),
-            "Solutions([\n\tSolution(1.1, 2.2, 3.3)\n])"
+            "Solutions([\n\tSolution([1.1, 2.2, 3.3])\n])"
         )
     }
 }
