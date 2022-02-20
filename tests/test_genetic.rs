@@ -7,8 +7,25 @@ use genetic_algorithm_traits::Population;
 #[test]
 fn test_end_to_end() {
     // Use the hartman function to test whether a realistic function can be maximized.
-    let function_to_optimize =
-        function::Function::new(|(x, y, z)| -test_functions::hartman_3_dimensional(x, y, z));
+    let function_to_optimize = function::Function::new(|x| {
+        Ok(-test_functions::hartman_3_dimensional(
+            *x.get(0)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+            *x.get(1)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+            *x.get(2)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+        ))
+    });
 
     // End-to-end test: does the error of the solution get down?
     let solutions = solutions::Solutions::random(50, -10.0..10.0);
