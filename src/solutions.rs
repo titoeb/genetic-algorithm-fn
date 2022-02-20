@@ -105,7 +105,15 @@ impl<'a> Population<'a> for Solutions {
     /// use genetic_algorithm_fn::function;
     /// use genetic_algorithm_traits::Population;
     ///
-    /// let function_to_optimize = function::Function::new(|(x,y,z)| {x*y*z});
+    /// let function_to_optimize = function::Function::new(
+    ///     |x| match x.len() {
+    ///         3 => Ok(x[0] * x[1] * x[2]),
+    ///         _ => Err(function::FunctionError::WrongNumberOfEntries {
+    ///             actual_number_of_entries: x.len(),
+    ///             expected_number_of_entries: 3,
+    ///         }),
+    ///     }
+    /// );
     /// let all_solutions = solutions::Solutions::random(30, 1.0..10.0);
     /// println!("Best 5 solutions: {}", all_solutions.get_fittest_population(5, &function_to_optimize));
     /// ```

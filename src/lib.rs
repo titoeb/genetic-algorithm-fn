@@ -13,3 +13,7 @@ pub mod solution;
 pub mod solutions;
 /// Testing functions to optimize.
 pub mod test_functions;
+/// functions to create default objects for testing.
+/// Both for convenience (not having to create them over and over again)
+/// as well as standardization (test against the same common cases).
+mod test_objects;

@@ -4,8 +4,26 @@ use genetic_algorithm_fn::test_functions;
 
 fn main() {
     let initial_params_range = -150.0..150.0;
-    let function_to_optimize =
-        function::Function::new(|(x, y, z)| -test_functions::hartman_3_dimensional(x, y, z));
+    let function_to_optimize = function::Function::new(|x| {
+        Ok(-test_functions::hartman_3_dimensional(
+            *x.get(0)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+            *x.get(1)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+            *x.get(2)
+                .ok_or(function::FunctionError::WrongNumberOfEntries {
+                    expected_number_of_entries: 3,
+                    actual_number_of_entries: x.len(),
+                })?,
+        ))
+    });
+
     // Single-threaded test
     for n_generations in (10..=510).step_by(250) {
         for size_generation in (10..=40).step_by(10) {
