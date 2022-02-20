@@ -28,7 +28,7 @@ fn test_end_to_end() {
     });
 
     // End-to-end test: does the error of the solution get down?
-    let solutions = solutions::Solutions::random(50, -10.0..10.0);
+    let solutions = solutions::Solutions::random(50, -10.0..10.0, 3);
     let max_fit_initial =
         solutions.get_n_fittest(1, &function_to_optimize)[0].fitness(&function_to_optimize);
     let optimized_solutions =
